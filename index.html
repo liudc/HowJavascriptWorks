@@ -1,0 +1,759 @@
+<!doctype html>
+
+<!--
+
+       _                                       ___                                     ___               
+      dM.                                      `MM                                     `MM           68b 
+     ,MMb                                       MM                                      MM           Y89 
+     d'YM.        ____    ___       ___         MM   __         ___          ____       MM  __       ___ 
+    ,P `Mb        `MM(    )M'     6MMMMb        MM   d'       6MMMMb        6MMMMb\     MM 6MMb      `MM
+    d'  YM.        `Mb    d'     dc'  `Mb       MM  d'       8M'  `Mb      MM'    `     MMM9 `Mb      MM 
+   ,P   `Mb         YM.  ,P          ,oMM       MM d'            ,oMM      YM.          MM'   MM      MM 
+   d'    YM.         MM  M       ,6MM9'MM       MMdM.        ,6MM9'MM        Liudc      MM    MM      MM 
+  ,MMMMMMMMb         `Mbd'       MM'   MM       MMPYM.       MM'   MM           `Mb     MM    MM      MM 
+  d'      YM.         YMP        MM.  ,MM       MM  YM.      MM.  ,MM      L    ,MM     MM    MM      MM 
+_dM_     _dMM_         M         `YMMM9'Yb.    _MM_  YM._    `YMMM9'Yb.    MYMMMM9     _MM_  _MM_    _MM_
+                      d'                                                                                           
+                  (8),P                                                                                                
+                   YMM                                                                                             
+-->
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>How Javascript Works</title>
+    
+    <meta name="description" content="to explain how javasript works"/>
+    <meta name="author" content="Decheng@Ayakashi" />
+
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
+
+    <link href="css/impress-demo.css" rel="stylesheet" />
+    <link href="css/how-javascript-works.css" rel="stylesheet" />
+
+
+    <script src="js/jquery-1.7.1.min.js"></script>
+    <!-- syntax high lighter -->
+    <script type="text/javascript" src="syntaxhighlighter/scripts/shCore.js"></script>
+	<script type="text/javascript" src="syntaxhighlighter/scripts/shBrushJScript.js"></script>
+	<script type="text/javascript" src="syntaxhighlighter/scripts/shBrushCpp.js"></script>
+	<link type="text/css" rel="stylesheet" href="syntaxhighlighter/styles/shCoreDefault.css"/>
+    <script type="text/javascript">
+        SyntaxHighlighter.defaults['gutter'] = false;
+        SyntaxHighlighter.all();
+    </script>
+
+</head>
+
+<body class="impress-not-supported">
+
+<div class="fallback-message">
+    <p>Your browser <b>doesn't support the features required</b> by impress.js, so you are presented with a simplified version of this presentation.</p>
+    <p>For the best experience please use the latest <b>Chrome</b>, <b>Safari</b> or <b>Firefox</b> browser.</p>
+</div>
+
+<div id="impress">
+
+    <!-- slide 0 -->
+    <div id="bored" class="step slide" data-x="-2000" data-y="-1500">
+        <div class="slide-title">How <strong>Javascript</strong> works</div>
+        <p class="author">Decheng@Ayakashi</p>
+    </div>
+
+    <!-- slide 1 -->
+    <div id="agenda" class="step slide" data-x="-1000" data-y="-1500">
+        <div class="slide-title">Outline</div>
+        <div class="outline-content">
+            <h3>Overview of Javascript</h3> 
+            <h3>Core of Javascript</h3>
+            <ul>
+                <li class="core-details">
+                    <p>Function</p> 
+                    <p>Object</p> 
+                    <p>Executing Context</p> 
+                    <p>Memory Management</p> 
+                </li>
+            </ul>
+            <h3>Reference</h3>
+        </div>
+    </div>
+
+    <!-- slide 2 -->
+    <div class="step slide" data-x="0" data-y="-1500">
+        <q><strong>Compiler</strong> vs. <strong>Interpreter</strong></q>
+        <div class="slide-2-code">
+            <div class="c-code">
+                <pre class="brush: c; gutter: true;">
+                // c-style code
+
+                int a = 1;
+                a = a + (a += 1);
+                a = ?
+
+                a = 1;
+                a = (a += 1) + a;
+                a = ?
+                </pre>
+            </div>
+
+            <div id="slide2-jscode" class="js-code">
+                <pre class="brush: js; gutter: true;">
+                // js-style code
+
+                var o = 1;
+                o = o + (o += 1);
+                o = ?
+
+                var o = 1;
+                o = (o += 1) + o; 
+                o = ?
+                </pre>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- slide 3 -->
+    <div class="step slide" data-x="1000" data-y="-1500">
+        <div class="slide-3-code">
+            <div class="c-code">
+                <pre class="brush: c; gutter: true;">
+                // c-style code
+                int a = 10;
+         
+                int foo() {
+                  int a = 20;
+                  return a; // a?
+                }
+
+                int main() {
+                  int a = 30;
+                  int b = 40;
+                  
+                  { // a? b?
+                    int a; 
+                  }
+
+                  foo(); // a?
+                  return;
+                }
+                </pre>
+            </div>
+
+            <div id="slide3-jscode" class="js-code">
+                <pre class="brush: js;">
+                // js-style code
+                var o = 10;
+                function foo() {
+                    console.log(o);
+                }
+
+                var bar = (function(){
+                  var o = 30;
+                  var bar = function(){
+                      console.log(o);
+                  };
+
+                  foo();  // output: ?
+                  bar();  // output: ?
+                  return bar;
+                })();
+
+                foo();   // output: ?
+                bar();   // output: ?
+                </pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- slide 4 -->
+    <div class="step" data-x="-3000" data-y="1000" data-scale="2">
+        <div class="slide-title">Overview of Javascript</div>
+        <p>A Javascript Program: a cluster of communicating <strong>Objects</strong></p>
+        <p id="slide4-object">A Javascript Object: a collection of <strong>properties</strong> each with zero or more <strong>attributes</strong></p>
+        <p id="slide4-property">Properties are container that hold other objects, <strong>primitive values</strong>, or <strong>functions</strong>.</p>
+    </div>
+
+    <!-- slide 5 -->
+    <div id="title" class="step slide-4" data-x="0" data-y="0" data-scale="3">
+        <span class="try">So ...</span>
+        <h1>How does <strong><span class="keyword">Javascript</span></strong> work<sup>?</sup></h1>
+    </div>
+
+    <!-- slide 6 -->
+    <div id="its" class="step" data-x="500" data-y="6000" data-rotate="90" data-scale="5">
+            <div class="slide-title">Expressions</div>
+            <p>x+x<span class="space"></span>x-x<span class="space"></span>x*x<span class="space"></span>x/x... 
+            <br />
+            x&&x<span class="space"></span>x||x<span class="space"></span>x==x<span class="space"></span>x!==x...
+            <br />
+            x+=x<span class="space"></span>x-=x<span class="space"></span>x*=x...</p>
+    </div>
+
+    <!-- slide 7 -->
+    <div class="step slide" data-x="3500" data-y="2100" data-rotate="180" data-scale="2">
+        <div class="slide-title">Where is X?</div>
+        <div>
+            <div class="list"><ul>
+                <li>Global Code</li>  
+                <li>Function Code</li>  
+                <li>Eval Code</li>  
+            </ul></div>
+            <div id="slide7-code" class="code">
+                <pre class="brush:js; gutter: true;">
+                var x = 10;
+                var y = 10;
+                </pre>
+
+                <div id="function-code">
+                <pre class="brush:js; gutter: true; first-line:3;">
+                function foo() {
+                    var x = 100; 
+                }
+                </pre>
+                </div>
+
+                <div id="eval-code">
+                <pre class="brush:js; gutter: true; first-line:6;">
+                eval('var y = 100;');
+                </pre>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- slide 8 -->
+    <div class="step slide" data-x="0" data-y="10000" data-rotate="90" data-scale="4">
+        <div class="slide-title">Function</div>
+        <div id="function-definition">
+            <pre class="brush: js; gutter: true;">
+                // function definition 
+                function foo() {
+                    // some code
+                };
+
+                // Function expression
+                var bar = function(){};
+                (function foo(){});
+                (function foo(){})();
+                function foo(){}, a = 10;
+            </pre>
+        </div>
+        <div id="function-execution">
+            <div class="c-code">
+            <pre class="brush: js; gutter: true;">
+                foo();
+
+                function foo() {
+                    console.log(a);
+                    var a;
+                    console.log(a);
+                    a = 10;
+                    console.log(a);
+                }
+
+                foo();
+            </pre>
+            </div>
+            <div class="js-code">
+            <pre class="brush: js;">
+                bar();
+
+                var bar = function foo() {
+                    console.log(a);
+                    var a;
+                    console.log(a);
+                    a = 10;
+                    console.log(a);
+                };
+
+                bar();
+                foo();
+            </pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- slide 9 -->
+    <div class="step" data-x="0" data-y="2100" data-rotate="180" data-scale="3">
+        <div class="function-code-1">
+            <div id="divider-line"></div>
+            <pre class="brush: js; gutter: true;">
+            var bar = (function outer() {
+                var outer_x = 0;
+                var outer_y = 0;
+
+                function inner_1 () {
+                    var inner_1_x = 1;
+                    var inner_1_y = 1;
+                    outer_x = 10;
+                    outer_y = 10;
+                    function inner_1_1 () {
+                        outer_x = 110;
+                        outer_y = 110;
+                        var inner_1_1_x = 11;
+                        var inner_1_1_y = 11;
+                    };
+
+                    return inner_1_1;
+                };
+
+                function inner_2 () {
+                    var inner_2_x = 2;
+                    var inner_2_y = 2;
+
+                    outer_x = 20;
+                    outer_y = 20;
+                    function inner_2_1 () {
+                        outer_x = 210;
+                        outer_y = 210;
+
+                        var inner_2_1_x = 21;
+                        var inner_2_1_y = 21;
+                    };
+
+                    return inner_2_1;
+                };
+
+                return {
+                    inner1: inner_1,
+                    inner2: inner_2
+                    };
+            })();
+
+            bar.inner1();
+            bar.inner2();
+            </pre>
+            <div class="scope-diagram">
+                <div id="global-scope">
+                    <table id="global-table">
+                        <tr><th colspan=2>Global Scope</th></tr> 
+                        <tr id="bar-row">
+                            <td>bar</td>
+                            <td id="bar-value" class="td-value"></td>
+                        </tr>
+                        <tr>
+                            <td>__outer__</td>
+                            <td id="global-outer" class="outer-value"></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div id="outer-scope">
+                    <table>
+                        <tr><th colspan=2>Outer Scope</th></tr> 
+                        <tr id="outer_x-row">
+                            <td>outer_x</td>
+                            <td id="outer_x-value" class="td-value"></td>
+                        </tr>
+                        <tr id="outer_y-row">
+                            <td>outer_y</td>
+                            <td id="outer_y-value" class="td-value"></td>
+                        </tr>
+                        <tr id="inner_1-row">
+                            <td>inner_1</td>
+                            <td id="inner_1-value" class="td-value"></td>
+                        </tr>
+                        <tr id="inner_2-row">
+                            <td>inner_2</td>
+                            <td id="inner_2-value" class="td-value"></td>
+                        </tr>
+                        <tr>
+                            <td>__outer__</td>
+                            <td id="outer-outer" class="outer-value"></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div id="inner1-scope">
+                    <table>
+                        <tr><th colspan=2>Inner_1 Scope</th></tr> 
+                        <tr id="inner_1_x-row">
+                            <td>inner_1_x</td>
+                            <td id="inner_1_x-value" class="td-value"></td>
+                        </tr>
+                        <tr id="inner_1_y-row">
+                            <td>inner_1_y</td>
+                            <td id="inner_1_y-value" class="td-value"></td>
+                        </tr>
+                   
+                        <tr id="inner_1_1-row">
+                            <td>inner_1_1</td>
+                            <td id="inner_1_1-value" class="td-value"></td>
+                        </tr>
+                        <tr>
+                            <td>__outer__</td>
+                            <td id="inner_1-outer" class="outer-value"></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div id="inner2-scope">
+                    <table>
+                        <tr><th colspan=2>Inner_2 Scope</th></tr> 
+                        <tr id="inner_2_x-row">
+                            <td>inner_2_x</td>
+                            <td id="inner_2_x-value" class="td-value"></td>
+                        </tr>
+                        <tr id="inner_2_y-row">
+                            <td>inner_2_y</td>
+                            <td id="inner_2_y-value" class="td-value"></td>
+                        </tr>
+
+                        <tr id="inner_2_1-row">
+                            <td>inner_2_1</td>
+                            <td id="inner_2_1-value" class="td-value"></td>
+                        </tr>
+                        <tr>
+                            <td>__outer__</td>
+                            <td id="inner_2-outer" class="outer-value"></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div id="inner11-scope">
+                    <table>
+                        <tr><th colspan=2>Inner_1_1 Scope</th></tr> 
+                        <tr id="inner_1_1_x-row">
+                            <td>inner_1_1_x</td>
+                            <td id="inner_1_1_x-value" class="td-value"></td>
+                        </tr>
+                        <tr id="inner_1_1_y-row">
+                            <td>inner_1_1_y</td>
+                            <td id="inner_1_1_y-value" class="td-value"></td>
+                        </tr>
+                        <tr>
+                            <td>__outer__</td>
+                            <td id="inner_1_1-outer" class="outer-value"></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div id="inner21-scope">
+                    <table>
+                        <tr><th colspan=2>Inner_2_1 Scope</th></tr> 
+                        <tr id="inner_2_1_x-row">
+                            <td>inner_2_1_x</td>
+                            <td id="inner_2_1_x-value" class="td-value"></td>
+                        </tr>
+                        <tr id="inner_2_1_y-row">
+                            <td>inner_2_1_y</td>
+                            <td id="inner_2_1_y-value" class="td-value"></td>
+                        </tr>
+                        <tr>
+                            <td>__outer__</td>
+                            <td id="inner_2_1-outer" class="outer-value"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="function-code-2">
+            <pre class="brush: js; gutter: true;">
+            var bar = function foo(x, y, foo) {
+                if (x == 0) {
+                    foo(1, 1, foo);    
+                } else {
+                    console.log(x);
+                    console.log(y);
+                    console.log(foo);
+                }    
+            };
+
+            bar(0, 0, bar);
+            foo(0, 0, foo);
+            </pre>
+        </div>
+    </div>
+
+    <!-- slide 10 -->
+    <div id="object-slide" class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" data-scale="2">
+        <div class="slide-title">Object</div>
+        <span class="object-span">Each Object is created by <strong>Constructor.</strong></span>
+        <br />
+        <span class="object-span">Each constructor is a function that has a property named "<strong>prototype</strong>"</span>
+        <div >
+            <pre class="brush: js; gutter: true;">
+            function foo(x, y) {
+                this.x = x;
+                this.y = y;
+            };
+
+            var bar = new foo(1, 2);
+            </pre>
+        </div>
+
+        <div id="object-diagram">
+            <div id="object-constructor">
+                <table>
+                    <tr><th colspan=2>Function: foo</th></tr> 
+                    <tr >
+                        <td id="prototype"> prototype </td>
+                        <td class="td-value">{ }</td>
+                    </tr> 
+                </table>
+            </div>
+
+            <div id="object-prototype">
+                <table>
+                    <tr><th colspan=2>Object: {}</th></tr> 
+                    <tr id="constructor">
+                        <td>constructor</td>
+                        <td class="td-value">foo</td>
+                    </tr>
+                     
+                </table>
+            </div>
+            
+            <div id="object-instance">
+                <table>
+                    <tr><th colspan=2>Object: bar</th></tr> 
+                    <tr>
+                        <td>x</td>
+                        <td class="td-value">1</td>
+                    </tr>
+                    <tr>
+                        <td>y</td>
+                        <td class="td-value">2</td>
+                    </tr> 
+                    <tr>
+                        <td>constructor?</td>
+                        <td class="td-value">foo</td>
+                    </tr> 
+                    <tr>
+                        <td>__proto__[?]</td>
+                        <td class="td-value">{}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- slide 11 -->
+    <div id="proto-chain" class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="3">
+        <div class="this-code">
+            <div id="proto-divider"></div>
+            <pre class="brush: js; gutter: true;">
+               function foo(x, y) {
+                 this.x = x;
+                 this.y = y;
+               };
+               var bar = new foo(1, 2);
+
+               function foo2(z) {
+                 this.z = z;
+               };
+               foo2.prototype = bar;
+
+               var bar2 = new foo2(10);
+               console.log('x: ' + bar2.x + ', y: ' 
+                        + bar2.y + ', z: ' + bar2.z);
+
+               bar.x = -1;
+               console.log('x: ' + bar2.x + ', y: ' 
+                        + bar2.y + ', z: ' + bar2.z);
+
+               bar2.x = 10;
+               console.log('x: ' + bar2.x + ', y: ' 
+                        + bar2.y + ', z: ' + bar2.z);
+
+               console.log(bar.x);
+            </pre>
+        </div>
+        <div id="prototype-chain">
+            <div id="foo-function">
+                <table>
+                    <tr><th colspan=2>Function: foo</th></tr>
+                    <tr>
+                        <td>prototype</td>
+                        <td class="td-value">{}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div id="bar-object">
+                <table>
+                    <tr><th colspan=2>Object: bar</th></tr>
+                    <tr>
+                        <td>x</td>
+                        <td class="td-value">1</td>
+                    </tr>
+                    <tr>
+                        <td>y</td>
+                        <td class="td-value">2</td>
+                    </tr>
+                    <tr>
+                        <td>constuctor?</td>
+                        <td class="td-value">foo</td>
+                    </tr>
+                </table>
+            </div>
+            <div id="foo2-function">
+                <table>
+                    <tr><th colspan=2>Function: foo2</th></tr>
+                    <tr>
+                        <td>prototype</td>
+                        <td id="foo2-proto" class="td-value">{}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div id="bar2-object">
+                <table>
+                    <tr><th colspan=2>Object: bar2</th></tr>
+                    <tr id="bar2-x">
+                        <td>x</td>
+                        <td class="td-value">10</td>
+                    </tr>
+                    <tr>
+                        <td>z</td>
+                        <td class="td-value">10</td>
+                    </tr>
+                    <tr>
+                        <td>constuctor</td>
+                        <td class="td-value">?</td>
+                    </tr>
+                    <tr>
+                        <td>__proto__[?]</td>
+                        <td class="td-value">?</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!--slide 12 new and This--> 
+    <div class="step" data-x="11000" data-y="-300" data-scale="3">
+        <div class="slide-title"><strong>new</strong> operator</div>
+        <div id="new-description">
+            <p>when <strong>new foo(...)</strong></p>
+            <p>1. A new object is created, inheriting from <strong>foo.prototype</strong></p>
+            <p>2. The constructor function <strong>foo</strong> is called with the specified arguments and <strong>this</strong> bound to the newly created object.</p>
+            <p>3. The object returned by the constructor function becomes the result of the whole <strong>new</strong> expression. </p>
+
+            <div class="c-code">
+                <pre class="brush: js;">
+                function foo(x, y) {
+                    this.x = x;
+                    this.y = y;
+                    return 3;
+                };
+                bar1 = new foo(1, 2);
+                bar2 = foo(1, 2);
+                </pre>
+            </div>
+            <div class="js-code">
+                <pre class="brush: js;">
+                function foo(x, y) {
+                    this.x = x;
+                    this.y = y;
+                    return {x, y};
+                };
+                bar1 = new foo(1, 2);
+                bar2 = foo(1, 2);
+                </pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- slide 13 -->
+    <div id="imagination" class="step" data-x="6700" data-y="-300" data-scale="6">
+        <div class="slide-title">Closure & Module</div>
+        <div class="module-code">
+            <pre class="brush: js; gutter: true;">
+                var bar = (function (){
+                        var _x; // private
+
+                        (function init() {
+                            _x = 0;
+                        })();
+
+                        function getx() {
+                            return _x;   
+                        }
+
+                        function setx(x) {
+                            _x = x;
+                        }
+                        
+                        return {getX : getx,
+                            setX : setx};
+                    })();
+
+                console.log(_x);
+                console.log(bar.getx());
+                bar.setx(100);
+            </pre>
+        </div>
+        <div id="module-question">
+            <p>How to extend/rewrite it?</p>
+        </div>
+    </div>
+
+    <!-- slide 14 -->
+    <div id="one-more-thing" class="step" data-x="6000" data-y="4000" data-scale="2">
+        <div class="slide-title">Executing Context</div>
+        <div class="runtime-code">
+            <pre class="brush: js; gutter: true">
+                var x = 10;
+                console.log(x);
+                with({x: 100}) {
+                  console.log(x);
+                  eval('console.log(x)');
+                };
+                eval('console.log(x)');
+
+                try{
+                    throw 'where is x';
+                }catch(x) {
+                    console.log(x);  
+                }
+            </pre>
+        </div>
+    </div>
+
+    <!-- slide 15 -->
+    <div id="its-in-3d" class="step" data-x="8200" data-y="4300" data-z="-100" data-rotate-x="-40" data-rotate-y="10" data-scale="2">
+        <div class="slide-title">Memory management</div> 
+        <p><strong>stack</strong> vs. <strong>heap</strong></p>
+        <p>Garbage collector</p>
+        <div id="thread">
+            <p>And ...</p>
+            <p>Thread and Process</p>
+        </div>
+    </div>
+
+    <!-- slide 16 -->
+    <div class="step" data-x="10000" data-y="4300" data-z="-100" data-rotate-x="-40" data-rotate-y="10" data-scale="3">
+        <q>The End</q> 
+    </div>
+
+    <!-- slide 17 -->
+    <div class="step" data-x="8000" data-y="6300" data-rotate-x="-40" data-rotate-y="10" data-scale="3">
+        <div class="slide-title">Reference</div>
+        <ul>
+            <li><a href="http://www.ecma-international.org/publications/files/ecma-st/ECMA-262.pdf">ECMA-262</a></li>
+            <li>Javascript Enlightenment</li>
+            <li><a href="http://dmitrysoshnikov.com/">Dmitry Soshnikov</a></li>
+            <li><a href="http://www.cnblogs.com/TomXu/archive/2011/12/15/2288411.html">汤姆大叔的博客：深入理解Javascript系列</a></li>
+            <li></li>
+        </ul>
+    </div>
+
+
+    <!-- slide 18 -->
+    <div id="overview" class="step" data-x="3000" data-y="1500" data-scale="10">
+    </div>
+
+</div>
+
+<script src="js/how-javascript-works.js"></script>
+<script src="js/impress.js"></script>
+<script>impress().init();</script>
+
+</body>
+</html>

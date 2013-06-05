@@ -1,0 +1,309 @@
+
+.author {
+    margin-top: 300px;
+    text-align: right;
+}
+
+.outline-content {
+    font-size: 40px;
+    font-weight: bold;
+    line-height: 60px;
+}
+
+.core-details {
+    display: none;
+    font-size: 30px;
+    line-height: 50px;
+    margin-left: 40px;
+}
+
+.c-code {
+    margin-left: -30px;
+    width: 395px;
+    float: left;
+}
+
+.js-code {
+    width: 395px;
+    float: left;
+}
+
+strong {
+    color: #580707; 
+}
+
+#slide4-object,
+#slide4-property,
+#slide3-jscode,
+#slide2-jscode {
+    display: none;
+}
+
+.slide-3-code {
+    margin-top: -38px;
+    .c-code {
+        width: 400px;
+    }
+    .js-code {
+        width: 380px;
+    }
+}
+
+div#title h1 {
+    margin-top: 40px;
+    font-size: 120px;
+}
+
+.space {
+    margin: 0 40px;
+}
+
+.slide-title {
+    margin-top: 50px; 
+    margin-bottom: 30px;
+    font-size: 50px !important;
+    font-weight: bold;
+}
+
+#slide7-code {
+    backgroud-color: #FFF;
+}
+
+.list {
+        width: 260px;
+        line-height: 100px;
+        font-size: 40px;
+        float: left;
+    }
+.code{
+        width: 500px;
+        float: left;
+        font-size: 35px !important;
+        overflow: hidden;
+    }
+
+div#function-code {
+    display: none;
+}
+
+div#eval-code {
+    display: none;
+}
+
+.function-code-1 {
+    font-size: 18px !important;
+    position: relative; 
+}
+
+#divider-line {
+        border-top: 1px solid;
+        z-index: 1;
+        width: 100%;
+        top: 0;
+        left: 0;
+        position: absolute;
+        border-color: red;
+        display: none;
+    }
+
+.function-code-2 {
+    display: none;
+    font-size: 34px !important;
+}
+
+div#tiny .function-code-1 {
+    font-size: 40px !important;
+    width: 800px !important;
+}
+
+.this-code {
+    width: 800px !important;
+}
+
+.module-code {
+    font-size: 30px !important;
+    width: 800px !important;
+}
+
+div#function-definition {
+
+}
+
+div#function-execution {
+    display:none;
+}
+
+div#global-scope {
+        z-index: 1;
+        top: 20px;
+        right: 30px;
+        position: absolute;
+}
+
+div#outer-scope {
+        z-index: 1;
+        top: 150px;
+        right: 60px;
+        position: absolute;
+}
+
+div#inner1-scope {
+        z-index: 1;
+        top: 380px;
+        right: 160px;
+        position: absolute;
+}
+
+div#inner2-scope {
+        z-index: 1;
+        top: 380px;
+        right: -40px;
+        position: absolute;
+}
+
+div#inner11-scope {
+        z-index: 1;
+        top: 600px;
+        right: 170px;
+        position: absolute;
+}
+
+div#inner21-scope {
+        z-index: 1;
+        top: 600px;
+        right: -70px;
+        position: absolute;
+}
+
+table#global-table td#bar-value {
+    width: 140px;
+}
+
+table
+{
+    font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+    width:100%;
+    border-collapse:collapse;
+}
+
+table td, table th 
+{
+    font-size:1em;
+    border:1px solid #98bf21;
+    padding:3px 7px 2px 7px;
+    width: 60px;
+    text-align: center;
+}
+
+table th 
+{
+    font-size:1.1em;
+    text-align:center;
+    padding-top:5px;
+    padding-bottom:4px;
+    background-color:#A7C942;
+    color:#ffffff;
+}
+
+table tr.alt td 
+{
+    color:#000000;
+    background-color:#EAF2D3;
+}
+
+td.td-value {
+    color: red;
+}
+
+td.outer-value {
+    color: blue;
+}
+
+div#object-slide {
+    font-size: 32px;
+}
+
+div#object-constructor {
+    z-index: 1;
+    top: 100px;
+    right: -250px;
+    position: absolute;
+
+}
+
+div#object-prototype {
+    z-index: 1;
+    top: 300px;
+    right: -250px;
+    position: absolute;
+
+}
+
+div#object-instance {
+    z-index: 1;
+    top: 500px;
+    right: -250px;
+    position: absolute;
+
+}
+
+div#object-slide {
+    position: absolute;
+    top: 300px;
+    left: -200px;
+}
+
+td#prototype {
+    width: 130px;
+}
+
+div#foo-function,
+div#bar-object,
+div#foo2-function,
+div#bar2-object {
+    z-index: 1;
+    position: absolute;
+}
+div#foo-function {
+    top: -50px;
+    right: 150px;
+}
+div#bar-object {
+    top: -50px;
+    right: -170px;
+}
+div#foo2-function {
+    top: 250px;
+    right: -170px;
+}
+div#bar2-object {
+    top: 550px;
+    right: -200px;
+}
+
+div#proto-chain {
+    font-size: 26px !important;
+}
+
+div#proto-divider {
+        border-top: 1px solid;
+        z-index: 1;
+        width: 100%;
+        top: 0;
+        left: 0;
+        position: absolute;
+        border-color: red;
+        display: none;
+    }
+
+div#module-question {
+    z-index: 1;
+    bottom: 0px;
+    right: -300px;
+    color: green;
+    position: absolute;
+}
+
+div#new-description {
+    font-size: 30px;
+}
